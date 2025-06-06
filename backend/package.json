@@ -4,11 +4,17 @@
     "dotenv": "^16.5.0",
     "drizzle-orm": "^0.44.2",
     "elysia": "^1.3.4",
-    "pg": "^8.16.0"
+    "pg": "^8.16.0",
+    "postgres": "^3.4.7"
   },
   "devDependencies": {
     "@types/pg": "^8.15.4",
     "drizzle-kit": "^0.31.1",
     "tsx": "^4.19.4"
+  },
+  "scripts": {
+    "dev": "bun --watch src/http/server.ts",
+    "db:migrate": "bun src/db/migrate.ts",
+    "drizzle-kit": "drizzle-kit"
   }
 }
