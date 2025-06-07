@@ -2,7 +2,7 @@ import { Elysia, t } from "elysia";
 import { lucia } from "../../services/auth.service";
 import { users } from "../../db/schema";
 import { Argon2id } from "oslo/password";
-import { generateRandomString, alphabet, generate } from "oslo/crypto";
+import { generateRandomString, alphabet } from "oslo/crypto";
 import { db } from "../../db";
 
 export const authRoutes = new Elysia({ prefix: "/auth" })
