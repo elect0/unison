@@ -10,8 +10,7 @@ if (!connectionString) {
   throw new Error("DATABASE_URL is not defined");
 }
 const pgClient = postgres(connectionString);
-const db = drizzle(pgClient, { schema });
+export const db = drizzle(pgClient, { schema });
 
 const result = await db.execute("select 1");
 console.log("Database connection test successful:", result);
-export default db;

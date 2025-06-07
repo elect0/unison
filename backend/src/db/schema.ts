@@ -5,14 +5,13 @@ import {
   text,
   varchar,
   timestamp,
-  integer,
   date,
   uniqueIndex,
   primaryKey,
 } from "drizzle-orm/pg-core";
 
 export const users = pgTable("users", {
-  id: serial("id").primaryKey(),
+  id: text("id").primaryKey(),
   username: text("username").notNull().unique(),
   email: varchar("email", { length: 256 }).unique().notNull(),
   password: text("password").notNull(),
@@ -21,8 +20,8 @@ export const users = pgTable("users", {
 });
 
 export const sessions = pgTable("sessions", {
-  id: serial("id").primaryKey(),
-  userId: integer("user_id")
+  id: text("id").primaryKey(),
+  userId: text("user_id")
     .notNull()
     .references(() => users.id),
   expiresAt: timestamp("expires_at", {
@@ -34,11 +33,11 @@ export const sessions = pgTable("sessions", {
 // GROUPS & MEMBERSHIP
 
 export const groups = pgTable("groups", {
-  id: serial("id").primaryKey(),
+  id: text("id").primaryKey(),
   name: text("name").notNull(),
   description: text("description").notNull(),
   inviteCode: varchar("invite_code", { length: 9 }).unique().notNull(),
-  createdById: integer("created_by_id")
+  createdById: text("created_by_id")
     .notNull()
     .references(() => users.id, {
       onDelete: "cascade",
@@ -49,10 +48,10 @@ export const groups = pgTable("groups", {
 export const usersToGroups = pgTable(
   "users_to_groups",
   {
-    userId: integer("user_id")
+    userId: text("user_id")
       .notNull()
       .references(() => users.id, { onDelete: "cascade" }),
-    groupId: integer("group_id")
+    groupId: text("group_id")
       .notNull()
       .references(() => groups.id, { onDelete: "cascade" }),
     role: text("role", { enum: ["admin", "member"] })
@@ -67,27 +66,27 @@ export const usersToGroups = pgTable(
 // CONTENT MANAGEMENT
 
 export const questionPacks = pgTable("question_packs", {
-  id: serial("id").primaryKey(),
+  id: text("id").primaryKey(),
   name: text("name").notNull().unique(),
   description: text("description").notNull(),
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });
 
 export const questions = pgTable("questions", {
-  id: serial("id").primaryKey(),
+  id: text("id").primaryKey(),
   text: text("text").notNull(),
-  packId: integer("pack_id")
+  packId: text("pack_id")
     .notNull()
     .references(() => questionPacks.id, { onDelete: "cascade" }),
 });
 
 // GAMEPLAY & HISTORY
 export const groupSubscriptions = pgTable("group_subscriptions", {
-  id: serial("id").primaryKey(),
-  groupId: integer("group_id")
+  id: text("id").primaryKey(),
+  groupId: text("group_id")
     .notNull()
     .references(() => groups.id, { onDelete: "cascade" }),
-  packId: integer("pack_id")
+  packId: text("pack_id")
     .notNull()
     .references(() => questionPacks.id, { onDelete: "cascade" }),
   createdAt: timestamp("created_at").defaultNow().notNull(),
@@ -96,11 +95,11 @@ export const groupSubscriptions = pgTable("group_subscriptions", {
 export const dailyQuestions = pgTable(
   "daily_questions",
   {
-    id: serial("id").primaryKey(),
-    questionId: integer("question_id")
+    id: text("id").primaryKey(),
+    questionId: text("question_id")
       .notNull()
       .references(() => questions.id, { onDelete: "cascade" }),
-    groupId: integer("group_id")
+    groupId: text("group_id")
       .notNull()
       .references(() => groups.id, { onDelete: "cascade" }),
     date: date("date").notNull(),
@@ -112,14 +111,14 @@ export const dailyQuestions = pgTable(
 );
 
 export const votes = pgTable("votes", {
-  id: serial("id").primaryKey(),
-  dailyQuestionId: integer("daily_question_id")
+  id: text("id").primaryKey(),
+  dailyQuestionId: text("daily_question_id")
     .notNull()
     .references(() => dailyQuestions.id, { onDelete: "cascade" }),
-  voterId: integer("voter_id")
+  voterId: text("voter_id")
     .notNull()
     .references(() => users.id, { onDelete: "cascade" }),
-  votedForId: integer("voted_for_id")
+  votedForId: text("voted_for_id")
     .notNull()
     .references(() => users.id, { onDelete: "cascade" }),
   createdAt: timestamp("created_at").defaultNow().notNull(),

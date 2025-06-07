@@ -1,29 +1,29 @@
 CREATE TABLE "daily_questions" (
-	"id" serial PRIMARY KEY NOT NULL,
-	"question_id" integer NOT NULL,
-	"group_id" integer NOT NULL,
+	"id" text PRIMARY KEY NOT NULL,
+	"question_id" text NOT NULL,
+	"group_id" text NOT NULL,
 	"date" date NOT NULL
 );
 --> statement-breakpoint
 CREATE TABLE "group_subscriptions" (
-	"id" serial PRIMARY KEY NOT NULL,
-	"group_id" integer NOT NULL,
-	"pack_id" integer NOT NULL,
+	"id" text PRIMARY KEY NOT NULL,
+	"group_id" text NOT NULL,
+	"pack_id" text NOT NULL,
 	"created_at" timestamp DEFAULT now() NOT NULL
 );
 --> statement-breakpoint
 CREATE TABLE "groups" (
-	"id" serial PRIMARY KEY NOT NULL,
+	"id" text PRIMARY KEY NOT NULL,
 	"name" text NOT NULL,
 	"description" text NOT NULL,
 	"invite_code" varchar(9) NOT NULL,
-	"created_by_id" integer NOT NULL,
+	"created_by_id" text NOT NULL,
 	"created_at" timestamp DEFAULT now() NOT NULL,
 	CONSTRAINT "groups_invite_code_unique" UNIQUE("invite_code")
 );
 --> statement-breakpoint
 CREATE TABLE "question_packs" (
-	"id" serial PRIMARY KEY NOT NULL,
+	"id" text PRIMARY KEY NOT NULL,
 	"name" text NOT NULL,
 	"description" text NOT NULL,
 	"created_at" timestamp DEFAULT now() NOT NULL,
@@ -31,19 +31,19 @@ CREATE TABLE "question_packs" (
 );
 --> statement-breakpoint
 CREATE TABLE "questions" (
-	"id" serial PRIMARY KEY NOT NULL,
+	"id" text PRIMARY KEY NOT NULL,
 	"text" text NOT NULL,
-	"pack_id" integer NOT NULL
+	"pack_id" text NOT NULL
 );
 --> statement-breakpoint
 CREATE TABLE "sessions" (
-	"id" serial PRIMARY KEY NOT NULL,
-	"user_id" integer NOT NULL,
+	"id" text PRIMARY KEY NOT NULL,
+	"user_id" text NOT NULL,
 	"expires_at" timestamp with time zone NOT NULL
 );
 --> statement-breakpoint
 CREATE TABLE "users" (
-	"id" serial PRIMARY KEY NOT NULL,
+	"id" text PRIMARY KEY NOT NULL,
 	"username" text NOT NULL,
 	"email" varchar(256) NOT NULL,
 	"password" text NOT NULL,
@@ -54,17 +54,17 @@ CREATE TABLE "users" (
 );
 --> statement-breakpoint
 CREATE TABLE "users_to_groups" (
-	"user_id" integer NOT NULL,
-	"group_id" integer NOT NULL,
+	"user_id" text NOT NULL,
+	"group_id" text NOT NULL,
 	"role" text DEFAULT 'member' NOT NULL,
 	CONSTRAINT "users_to_groups_user_id_group_id_pk" PRIMARY KEY("user_id","group_id")
 );
 --> statement-breakpoint
 CREATE TABLE "votes" (
-	"id" serial PRIMARY KEY NOT NULL,
-	"daily_question_id" integer NOT NULL,
-	"voter_id" integer NOT NULL,
-	"voted_for_id" integer NOT NULL,
+	"id" text PRIMARY KEY NOT NULL,
+	"daily_question_id" text NOT NULL,
+	"voter_id" text NOT NULL,
+	"voted_for_id" text NOT NULL,
 	"created_at" timestamp DEFAULT now() NOT NULL
 );
 --> statement-breakpoint
